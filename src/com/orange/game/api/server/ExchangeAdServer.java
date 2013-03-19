@@ -27,6 +27,7 @@ import com.orange.common.api.CommonApiServer;
 import com.orange.common.api.service.ServiceHandler;
 import com.orange.common.mongodb.MongoDBClient;
 import com.orange.game.constants.DBConstants;
+import com.orange.game.model.service.CreateDataFileService;
 import com.orange.game.traffic.server.ServerMonitor;
 
 public class ExchangeAdServer extends AbstractHandler {
@@ -177,11 +178,17 @@ public class ExchangeAdServer extends AbstractHandler {
 	
 	
     public static void main(String[] args) throws Exception{
+    	    	
+    	CreateDataFileService.getInstance().execute();
+    	
+    	/*
     	
 		// This code is to initiate the listener.
 		ServerMonitor.getInstance().start();
     	
 		ExchangeAdServer adServer = new ExchangeAdServer();
 		adServer.startServer();
+		
+		*/
     }
 }
