@@ -21,6 +21,7 @@ import org.eclipse.jetty.server.handler.AbstractHandler;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.alipay.client.trade.Trade;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.orange.common.api.CommonApiServer;
@@ -95,6 +96,8 @@ public class ExchangeAdServer extends AbstractHandler {
 		}
 	}
 	
+	static boolean isTrade = true;
+	
     @Override
     public void handle(String target,
                        Request baseRequest,
@@ -102,7 +105,16 @@ public class ExchangeAdServer extends AbstractHandler {
                        HttpServletResponse response) 
         throws IOException, ServletException
     {
-        baseRequest.setHandled(true);        
+    	
+    	
+        baseRequest.setHandled(true);
+        Trade trade = new Trade();
+        if (isTrade){
+        	trade.doPost(request, response, "", "", "", "", "");
+        	return;
+        }
+        
+        
 		try{			
 			
 			log.info("RECV request="+request.toString());
@@ -179,16 +191,12 @@ public class ExchangeAdServer extends AbstractHandler {
 	
     public static void main(String[] args) throws Exception{
     	    	
-    	CreateDataFileService.getInstance().execute();
-    	
-    	/*
+//    	CreateDataFileService.getInstance().execute(mongoClient);
     	
 		// This code is to initiate the listener.
 		ServerMonitor.getInstance().start();
     	
 		ExchangeAdServer adServer = new ExchangeAdServer();
 		adServer.startServer();
-		
-		*/
     }
 }
