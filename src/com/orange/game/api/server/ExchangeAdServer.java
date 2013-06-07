@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
 import java.util.Properties;
+import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -13,6 +14,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.cassandra.cli.CliParser.startKey_return;
+import org.apache.cassandra.thrift.Cassandra.system_add_column_family_args;
 import org.apache.log4j.Logger;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Request;
@@ -29,6 +32,7 @@ import com.orange.common.api.service.ServiceHandler;
 import com.orange.common.mongodb.MongoDBClient;
 import com.orange.game.constants.DBConstants;
 import com.orange.game.model.service.CreateDataFileService;
+import com.orange.game.model.service.DBService;
 import com.orange.game.traffic.server.ServerMonitor;
 
 public class ExchangeAdServer extends AbstractHandler {
@@ -44,7 +48,7 @@ public class ExchangeAdServer extends AbstractHandler {
 //	public static final String MONGO_USER = "";
 //	public static final String MONGO_PASSWORD = "";
 	
-	private static final MongoDBClient mongoClient = new MongoDBClient(DBConstants.D_GAME);	
+	private static final MongoDBClient mongoClient = DBService.getInstance().getMongoDBClient();
 	private static final ExecutorService adHistoryService = Executors.newSingleThreadExecutor();
 	private static final MongoDBClient mongoClientForPool = new MongoDBClient(DBConstants.D_GAME);	
 
@@ -189,14 +193,40 @@ public class ExchangeAdServer extends AbstractHandler {
 	}
 	
 	
+	
+
+	
+	
+	
+	
+	
     public static void main(String[] args) throws Exception{
     	    	
 //    	CreateDataFileService.getInstance().execute(mongoClient);
     	
 		// This code is to initiate the listener.
-		ServerMonitor.getInstance().start();
+		/*ServerMonitor.getInstance().start();
     	
 		ExchangeAdServer adServer = new ExchangeAdServer();
-		adServer.startServer();
+		adServer.startServer();*/
+    	
+        	String para = System.getProperty("exChange.para");
+        	log.info("PARA = "+para);
+        	if (Integer.parseInt(para) == 1) {
+        		CreateDataFileService.getInstance().hotExecute(mongoClient, DBConstants.C_LANGUAGE_CHINESE);
+        		CreateDataFileService.getInstance().hotExecute(mongoClient, DBConstants.C_LANGUAGE_ENGLISH);
+    		}else if (Integer.parseInt(para) == 2) {
+    			CreateDataFileService.getInstance().allTimeExecute(mongoClient, DBConstants.C_LANGUAGE_CHINESE);
+    			CreateDataFileService.getInstance().allTimeExecute(mongoClient, DBConstants.C_LANGUAGE_ENGLISH);
+    		}else if (Integer.parseInt(para) == 3) {
+    			CreateDataFileService.getInstance().featureExcute(mongoClient, DBConstants.C_LANGUAGE_CHINESE);    	
+    	    	CreateDataFileService.getInstance().featureExcute(mongoClient, DBConstants.C_LANGUAGE_ENGLISH);
+    		}
+			
+		
+    	
+    	
+    	
+    	
     }
 }
