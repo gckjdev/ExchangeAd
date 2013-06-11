@@ -6,18 +6,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
 import java.util.Properties;
-import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.apache.cassandra.cli.CliParser.startKey_return;
-import org.apache.cassandra.thrift.Cassandra.system_add_column_family_args;
 import org.apache.log4j.Logger;
-import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.AbstractHandler;
@@ -27,13 +21,11 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import com.alipay.client.trade.Trade;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
-import com.orange.common.api.CommonApiServer;
-import com.orange.common.api.service.ServiceHandler;
 import com.orange.common.mongodb.MongoDBClient;
 import com.orange.game.constants.DBConstants;
 import com.orange.game.model.service.CreateDataFileService;
 import com.orange.game.model.service.DBService;
-import com.orange.game.traffic.server.ServerMonitor;
+
 
 public class ExchangeAdServer extends AbstractHandler {
 
@@ -211,17 +203,28 @@ public class ExchangeAdServer extends AbstractHandler {
 		adServer.startServer();*/
     	
         	String para = System.getProperty("exChange.para");
+        	CreateDataFileService createDataFileService = CreateDataFileService.getInstance();
         	log.info("PARA = "+para);
         	if (Integer.parseInt(para) == 1) {
-        		CreateDataFileService.getInstance().hotExecute(mongoClient, DBConstants.C_LANGUAGE_CHINESE);
-        		CreateDataFileService.getInstance().hotExecute(mongoClient, DBConstants.C_LANGUAGE_ENGLISH);
+        		createDataFileService.hotExecute(mongoClient, DBConstants.C_LANGUAGE_CHINESE);
+        		createDataFileService.hotExecute(mongoClient, DBConstants.C_LANGUAGE_ENGLISH);
     		}else if (Integer.parseInt(para) == 2) {
-    			CreateDataFileService.getInstance().allTimeExecute(mongoClient, DBConstants.C_LANGUAGE_CHINESE);
-    			CreateDataFileService.getInstance().allTimeExecute(mongoClient, DBConstants.C_LANGUAGE_ENGLISH);
+    			createDataFileService.allTimeExecute(mongoClient, DBConstants.C_LANGUAGE_CHINESE);
+    			createDataFileService.allTimeExecute(mongoClient, DBConstants.C_LANGUAGE_ENGLISH);
     		}else if (Integer.parseInt(para) == 3) {
-    			CreateDataFileService.getInstance().featureExcute(mongoClient, DBConstants.C_LANGUAGE_CHINESE);    	
-    	    	CreateDataFileService.getInstance().featureExcute(mongoClient, DBConstants.C_LANGUAGE_ENGLISH);
-    		}
+    			createDataFileService.featureExcute(mongoClient, DBConstants.C_LANGUAGE_CHINESE);    	
+    			createDataFileService.featureExcute(mongoClient, DBConstants.C_LANGUAGE_ENGLISH);
+    		}else if (Integer.parseInt(para) == 4) {
+    			createDataFileService.contestHotExecute(mongoClient, DBConstants.C_LANGUAGE_CHINESE);
+    			createDataFileService.contestHotExecute(mongoClient, DBConstants.C_LANGUAGE_ENGLISH);
+			}else if (Integer.parseInt(para) == 5) {
+				createDataFileService.contestLatestExecute(mongoClient, DBConstants.C_LANGUAGE_CHINESE);
+				createDataFileService.contestLatestExecute(mongoClient, DBConstants.C_LANGUAGE_ENGLISH);
+			}else if (Integer.parseInt(para) == 6) {
+				createDataFileService.myContestOpus(mongoClient, DBConstants.C_LANGUAGE_CHINESE);
+				createDataFileService.myContestOpus(mongoClient, DBConstants.C_LANGUAGE_ENGLISH);
+			}
+			
 			
 		
     	
