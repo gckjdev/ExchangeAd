@@ -106,7 +106,7 @@ public class ExchangeAdServer extends AbstractHandler {
         baseRequest.setHandled(true);
         Trade trade = new Trade();
         if (isTrade){
-        	trade.doPost(request, response, "", "", "", "", "");
+        	//trade.doPost(request, response, "", "", "", "", "");
         	return;
         }
         
@@ -223,6 +223,8 @@ public class ExchangeAdServer extends AbstractHandler {
 			}else if (Integer.parseInt(para) == 6) {
 				createDataFileService.myContestOpus(mongoClient, DBConstants.C_LANGUAGE_CHINESE);
 				createDataFileService.myContestOpus(mongoClient, DBConstants.C_LANGUAGE_ENGLISH);
+			}else if (Integer.parseInt(para) ==7) {
+				createDataFileService.userFavorite(mongoClient);
 			}
 			
 			
