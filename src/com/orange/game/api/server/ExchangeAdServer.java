@@ -206,8 +206,6 @@ public class ExchangeAdServer extends AbstractHandler {
         	CreateDataFileService createDataFileService = CreateDataFileService.getInstance();
         	log.info("PARA = "+para);
 
-        para = "8";
-
         	if (Integer.parseInt(para) == 1) {
         		createDataFileService.hotExecute(mongoClient, DBConstants.C_LANGUAGE_CHINESE);
         		createDataFileService.hotExecute(mongoClient, DBConstants.C_LANGUAGE_ENGLISH);
@@ -231,7 +229,9 @@ public class ExchangeAdServer extends AbstractHandler {
             }else if (Integer.parseInt(para) == 8) {
                 createDataFileService.moveMessage(mongoClient);
             }
-
+            else if (Integer.parseInt(para) == 10) {
+                createDataFileService.indexSongData(mongoClient);
+            }
 			
 		
     	
