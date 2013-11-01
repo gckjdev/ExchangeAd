@@ -194,49 +194,51 @@ public class ExchangeAdServer extends AbstractHandler {
 	
     public static void main(String[] args) throws Exception{
     	    	
-//    	CreateDataFileService.getInstance().execute(mongoClient);
-    	
 		// This code is to initiate the listener.
 		/*ServerMonitor.getInstance().start();
     	
 		ExchangeAdServer adServer = new ExchangeAdServer();
 		adServer.startServer();*/
     	
-        	String para = System.getProperty("exChange.para");
-        	CreateDataFileService createDataFileService = CreateDataFileService.getInstance();
-        	log.info("PARA = "+para);
+        String para = System.getProperty("exChange.para");
+        CreateDataFileService createDataFileService = CreateDataFileService.getInstance();
+        log.info("Config PARA = "+para);
 
-        	if (Integer.parseInt(para) == 1) {
-        		createDataFileService.hotExecute(mongoClient, DBConstants.C_LANGUAGE_CHINESE);
-        		createDataFileService.hotExecute(mongoClient, DBConstants.C_LANGUAGE_ENGLISH);
-    		}else if (Integer.parseInt(para) == 2) {
-    			createDataFileService.allTimeExecute(mongoClient, DBConstants.C_LANGUAGE_CHINESE);
-    			createDataFileService.allTimeExecute(mongoClient, DBConstants.C_LANGUAGE_ENGLISH);
-    		}else if (Integer.parseInt(para) == 3) {
-    			createDataFileService.featureExcute(mongoClient, DBConstants.C_LANGUAGE_CHINESE);    	
-    			createDataFileService.featureExcute(mongoClient, DBConstants.C_LANGUAGE_ENGLISH);
-    		}else if (Integer.parseInt(para) == 4) {
-    			createDataFileService.contestHotExecute(mongoClient, DBConstants.C_LANGUAGE_CHINESE);
-    			createDataFileService.contestHotExecute(mongoClient, DBConstants.C_LANGUAGE_ENGLISH);
-			}else if (Integer.parseInt(para) == 5) {
-				createDataFileService.contestLatestExecute(mongoClient, DBConstants.C_LANGUAGE_CHINESE);
-				createDataFileService.contestLatestExecute(mongoClient, DBConstants.C_LANGUAGE_ENGLISH);
-			}else if (Integer.parseInt(para) == 6) {
-				createDataFileService.myContestOpus(mongoClient, DBConstants.C_LANGUAGE_CHINESE);
-				createDataFileService.myContestOpus(mongoClient, DBConstants.C_LANGUAGE_ENGLISH);
-			}else if (Integer.parseInt(para) ==7) {
-				createDataFileService.userFavorite(mongoClient);
-            }else if (Integer.parseInt(para) == 8) {
-                createDataFileService.moveMessage(mongoClient);
-            }
-            else if (Integer.parseInt(para) == 10) {
-                createDataFileService.indexSongData(mongoClient);
-            }
-			
-		
-    	
-    	
-    	
-    	
+        if (Integer.parseInt(para) == 1) {
+            createDataFileService.hotExecute(mongoClient, DBConstants.C_LANGUAGE_CHINESE);
+            createDataFileService.hotExecute(mongoClient, DBConstants.C_LANGUAGE_ENGLISH);
+        }else if (Integer.parseInt(para) == 2) {
+            createDataFileService.allTimeExecute(mongoClient, DBConstants.C_LANGUAGE_CHINESE);
+            createDataFileService.allTimeExecute(mongoClient, DBConstants.C_LANGUAGE_ENGLISH);
+        }else if (Integer.parseInt(para) == 3) {
+            createDataFileService.featureExcute(mongoClient, DBConstants.C_LANGUAGE_CHINESE);
+            createDataFileService.featureExcute(mongoClient, DBConstants.C_LANGUAGE_ENGLISH);
+        }else if (Integer.parseInt(para) == 4) {
+            createDataFileService.contestHotExecute(mongoClient, DBConstants.C_LANGUAGE_CHINESE);
+            createDataFileService.contestHotExecute(mongoClient, DBConstants.C_LANGUAGE_ENGLISH);
+        }else if (Integer.parseInt(para) == 5) {
+            createDataFileService.contestLatestExecute(mongoClient, DBConstants.C_LANGUAGE_CHINESE);
+            createDataFileService.contestLatestExecute(mongoClient, DBConstants.C_LANGUAGE_ENGLISH);
+        }else if (Integer.parseInt(para) == 6) {
+            createDataFileService.myContestOpus(mongoClient, DBConstants.C_LANGUAGE_CHINESE);
+            createDataFileService.myContestOpus(mongoClient, DBConstants.C_LANGUAGE_ENGLISH);
+        }else if (Integer.parseInt(para) ==7) {
+            createDataFileService.userFavorite(mongoClient);
+        }else if (Integer.parseInt(para) == 8) {
+            createDataFileService.moveMessage(mongoClient);
+        }
+        else if (Integer.parseInt(para) == 9){
+            log.info("<moveBBSData> Start");
+            createDataFileService.moveBBSData(mongoClient);
+            log.info("<moveBBSData> Done");
+        }
+        else if (Integer.parseInt(para) == 10) {
+            createDataFileService.indexSongData(mongoClient);
+        }
+        else{
+            log.warn("Parameter Not Match Any Execution!");
+        }
+
+
     }
 }
